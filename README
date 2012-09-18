@@ -1,0 +1,14 @@
+1. Set picsdir in picweb.py to some path, i.e. $HOME/pics.
+2. Create that picsdir
+3. Under picsdir are the following directories:
+   a. 'all': everyone who can log in will be able to see pictures under here
+   b. '%user%' these match usernames in the passwords dict in picweb.py.
+      Only %user% can see pictures under here.
+   c. static.  The 'all' and '%user' directory trees must be mirrored here
+      so as to be able to serve images.
+4. Set port in picweb.py to the port you wish to use
+5. Add users and passwords to the passwords dict in picweb.py.  The password
+   field should be the result of 'echo -n $pwd | sha256sum'.
+
+Under the 'all' and '%user%' directories you may serve any sort of
+directory hierarchy that you like.

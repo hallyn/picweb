@@ -7,16 +7,25 @@
 	Subdirectories:
 	<ul>
 	{% for item in alldirs %}
-	<li>{{ escape(item) }}hi there </li>
+	<li>
+	<a href="/pics/{{ escape(allpath) }}/{{ escape(item)}}">
+		{{ escape(item) }}</a>
+	</li>
 	{% end %}
 	{% for item in userdirs %}
-	<li>{{ escape(item) }}</li>
+	<li>
+	<a href="/pics/{{ escape(userdirsath) }}/{{ escape(item)}}">
+		{{ escape(item) }}</a>
+	</li>
 	{% end %}
 	</ul>
 	Files:
 	<ul>
 	{% for item in files %}
-	<li>{{ escape(item) }}</li>
+	<li>
+	<a href="/pics/{{ escape(filepath) }}/{{ escape(item)}}">
+		{{ escape(item) }}</a>
+	</li>
 	{% end %}
 	</ul>
 </body>
