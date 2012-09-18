@@ -9,6 +9,8 @@
 4. Set port in picweb.py to the port you wish to use
 5. Add users and passwords to the passwords dict in picweb.py.  The password
    field should be the result of 'echo -n $pwd | sha256sum'.
+6. Create a cronjob to clear out static/ every so often.  Note that
+   anyone can see the static/ files if they know the path.
 
 Under the 'all' and '%user%' directories you may serve any sort of
 directory hierarchy that you like.
