@@ -4,6 +4,7 @@ import tornado.ioloop
 import tornado.web
 import hashlib
 import os
+import shutil
 
 port=8888
 picsdir = '/home/serge/pics'
@@ -84,9 +85,16 @@ class PicHandler(BaseHandler):
             self.render("index.html", title="Hallyn Pictures: %s" % (path), alldirs=[], userdirs=dirs, files=files, allpath="", userpath=path, filepath=path)
         else:
             p = str(path)
-            p = p[len(picsdir):]
-            #self.write("%s/%s" % (staticpath, p))
-            self.redirect("%s%s" % (staticpath, p))
+            shortpath = p[len(picsdir):]
+            spath = "%s%s%s" % (picsdir, staticpath, shortpath)
+            if not os.path.exists(spath):
+                d=os.path.dirname(spath)
+                try:
+                    os.makedirs(d)
+                except:
+                    pass
+                shutil.copyfile(p, spath)
+            self.redirect("%s%s" % (staticpath, shortpath))
 
     def get(self, path):
         if self.get_current_user() not in passwords.keys():
