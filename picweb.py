@@ -3,6 +3,7 @@
 import tornado.ioloop
 import tornado.web
 import hashlib
+import os
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -43,16 +44,53 @@ class LoginHandler(BaseHandler):
         if passwords[name] != hashlib.sha256(pwd).hexdigest():
             self.redirect("/invalid")
         self.set_secure_cookie("user", self.get_argument("name"))
-        self.redirect("/")
+        self.redirect("/pics/index")
+
+picsdir = '/home/serge/pics'
+
+class PicHandler(BaseHandler):
+    def showindex(self):
+        allpath = "%s/%s" % (picsdir, "all")
+        alldirs = os.listdir(allpath)
+        self.write("alldirs = " + allpath)
+        filtered_alldirs = []
+        for d in alldirs:
+            if os.path.isdir(d):
+                filtered_alldirs.append(d)
+        userpath = "%s/%s" % (picsdir, self.get_current_user())
+        userdirs = os.listdir(userpath)
+        filtered_userdirs = []
+        for d in userdirs:
+            if os.path.isdir(d):
+                filtered_userdirs.append(d)
+        self.render("index.html", title="Hallyn Pictures", alldirs=filtered_alldirs, files = [], userdirs = filtered_userdirs)
+
+    def show(self, path):
+        if os.path.isdir(path):
+            userdirs = os.listdir(path)
+            dirs = []
+            files = []
+            for d in userdirs:
+                if os.path.isdir(d):
+                    dirs.append(d)
+                else:
+                    files.append(d)
+            self.render("index.html", title="Hallyn Pictures: %s" % (path), alldirs=[], userdirs=dirs, files=files)
+
+    def get(self, path):
+        if self.get_current_user() not in passwords.keys():
+            self.redirect("/invalid")
+        if path == "index":
+            self.showindex()
+        else:
+            self.show(path)
 
 application = tornado.web.Application([
     (r"/", MainHandler),
     (r"/login", LoginHandler),
     (r"/invalid", InvalidHandler),
+    (r"/pics/(.*)", PicHandler),
 ], cookie_secret="05af817c64914b09580fc2cc2b15eb22")
-
-
-picdirs = [ '/home/serge/pics' ]
 
 if __name__ == "__main__":
     application.listen(8888)

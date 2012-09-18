@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>{{ title }}</title>
+</head>
+
+<body>
+	Subdirectories:
+	<ul>
+	{% for item in alldirs %}
+	<li>{{ escape(item) }}hi there </li>
+	{% end %}
+	{% for item in userdirs %}
+	<li>{{ escape(item) }}</li>
+	{% end %}
+	</ul>
+	Files:
+	<ul>
+	{% for item in files %}
+	<li>{{ escape(item) }}</li>
+	{% end %}
+	</ul>
+</body>
+</html>
+
