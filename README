@@ -1,3 +1,4 @@
+0. pip install -r requirements.pip
 1. Set picsdir in picweb.py to some path, i.e. $HOME/pics.
 2. Create that picsdir
 3. Under picsdir are the following directories:
